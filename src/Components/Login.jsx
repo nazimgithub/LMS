@@ -1,7 +1,37 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 
 function Login() {
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [employees, setEmployees] = useState([]);
+  const navigate = useNavigate();
+  
+useEffect(() => {
+    fetch("http://localhost:3001/employees")
+      .then(res => res.json())
+      .then(data => setEmployees(data))
+      .catch(err => console.error(err));
+  }, []);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const employee = employees.find(
+      (u) => u.email === email && u.password === password
+    );
+
+    if (employee) {
+      localStorage.setItem("isLoggedIn", "true");
+      navigate("/dashboard");
+    } else {
+      setError("Invalid credentials");
+    }
+  };
+
+
   return <>
     <div className="container-fluid" style={{ backgroundImage: "url(/login-page-bg.jpg)", height: "100vh"  }}>
       <div className="row align-items-center h-100">
@@ -10,9 +40,11 @@ function Login() {
           <div className="card opacity-75">
             <div className="card-body">
               <h3 className="card-title text-center mb-3">Login</h3>
-  <form>
-    <input type="email" className="form-control mb-3" id="email" aria-describedby="emailHelp" placeholder="Enter email" />
-    <input type="password" className="form-control mb-3" id="password" placeholder="Password" />
+  <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+    <input type="email" className="form-control mb-3 border p-2" value={email} onChange={(e) => setEmail(e.target.value)}
+placeholder="Enter email" />
+    <input type="password" className="form-control mb-3 border p-2" value={password} onChange={(e) => setPassword(e.target.value)}
+placeholder="Password" />
     <div className="text-center">
 <div className="form-check form-check-inline">
   <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"/>
@@ -27,6 +59,7 @@ function Login() {
   </label>
 </div>
 <br/>
+{error && <p className="text-red-500">{error}</p>}
 <button type="submit" className="btn btn-primary">Login</button>
     </div>
   </form>

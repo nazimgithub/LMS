@@ -1,0 +1,23 @@
+{
+  "employees": [
+    {
+      "id": "e167",
+      "name": "Mohammad Nazim",
+      "email": "nazimt@chetu.com",
+      "dept": "Human Resource",
+      "joining_date": "2025-07-19",
+      "password": "lKeMVvEHcV",
+      "role": "HR"
+    },
+    {
+      "id": "2585",
+      "name": "Atul Garg",
+      "email": "atulg@chetu.com",
+      "dept": "Admin",
+      "joining_date": "2025-07-19",
+      "password": "An94KQbB3U",
+      "role": "Employee"
+    }
+  ],
+  "leaves": []
+}

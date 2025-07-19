@@ -1,8 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import Header from "./Header";
 
 function Employeedashboard() {
   return <>
+    <Header />
     <div className="container-fluid" style={{ backgroundImage: "url(/login-page-bg.jpg)", height: "100vh"  }}>
     <div className="row">
       <div className="col-sm-4 mt-5">

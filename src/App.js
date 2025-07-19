@@ -1,27 +1,31 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login  from './Components/Login';
 import Signup from './Components/Signup';
 import Hrdashboard from './Components/Hrdashboard';
 import Employeedashboard from './Components/Employeedashboard';
+import Addemployee from './Components/Addemployee';
 
 function App() {
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+
   return (
     <BrowserRouter>
-    <div>
-    <nav class="navbar navbar-dark bg-primary">
-      <div class="container-fluid">
-    <a class="navbar-brand">Simplilearn Leave Management</a>
-    <button class="btn btn-outline-light" type="submit">Logout</button>
-  </div>
-
-    </nav>
-    </div>
       <Routes>
         <Route path="/" element={<Login />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
-        <Route path="/dashboard" element={<Hrdashboard />}></Route>
-        <Route path="/emp-dashboard" element={<Employeedashboard />}></Route>
+        <Route
+          path="/dashboard"
+          element={isLoggedIn ? <Hrdashboard /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/emp-dashboard"
+          element={isLoggedIn ? <Employeedashboard /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/add-employee"
+          element={isLoggedIn ? <Addemployee /> : <Navigate to="/" />}
+        />
       </Routes>
     </BrowserRouter>
 
