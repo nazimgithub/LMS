@@ -5,6 +5,7 @@ import Signup from "./Components/Signup";
 import Hrdashboard from "./Components/Hrdashboard";
 import Employeedashboard from "./Components/Employeedashboard";
 import Addemployee from "./Components/Addemployee";
+import Leavedetail from "./Components/Leavedetail";
 
 function App() {
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
@@ -21,6 +22,10 @@ function App() {
         <Route
           path="/emp-dashboard/:id"
           element={isLoggedIn ? <Employeedashboard /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/leave-details/:id"
+          element={isLoggedIn ? <Leavedetail /> : <Navigate to="/" />}
         />
         <Route
           path="/add-employee"

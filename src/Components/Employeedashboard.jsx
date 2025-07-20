@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Header from "./Header";
 import Swal from "sweetalert2";
 
@@ -11,6 +11,9 @@ function Employeedashboard() {
     enddate: "",
     reason: "",
   });
+  const [showModal, setShowModal] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -76,6 +79,23 @@ function Employeedashboard() {
       });
   };
 
+  const handleCancel = () => {
+    setFormData({ startdate: "", enddate: "", reason: "" });
+  };
+  const handleShowDetails = () => {
+    setSelectedUser(user);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedUser(null);
+  };
+
+  const handleLeavesDetails = () => {
+    navigate(`/leave-details/${id}`);
+  };
+
   return (
     <>
       <Header />
@@ -93,7 +113,9 @@ function Employeedashboard() {
                 <h4 className="card-title text-center mb-3">
                   Welcome {user.name}
                 </h4>
-                <button className="btn btn-primary">View Details</button>
+                <button className="btn btn-primary" onClick={handleShowDetails}>
+                  View Details
+                </button>
               </div>
             </div>
           </div>
@@ -103,7 +125,12 @@ function Employeedashboard() {
                 <h4 className="card-title text-center mb-3">
                   {user.name} View your Leave Details
                 </h4>
-                <button className="btn btn-primary">View Leave Status</button>
+                <button
+                  className="btn btn-primary"
+                  onClick={handleLeavesDetails}
+                >
+                  View Leave Status
+                </button>
               </div>
             </div>
           </div>
@@ -152,8 +179,11 @@ function Employeedashboard() {
                       rows="3"
                     ></textarea>
                   </div>
-                  <button type="submit" className="btn btn-primary">
+                  <button type="submit" className="btn btn-primary me-3">
                     Apply Leave
+                  </button>
+                  <button onClick={handleCancel} className="btn btn-danger">
+                    Cancel
                   </button>
                 </form>
               </div>
@@ -161,9 +191,83 @@ function Employeedashboard() {
           </div>
           <div className="col-sm-2"></div>
         </div>
+
+        {showModal && <Modal onClose={handleCloseModal} user={selectedUser} />}
       </div>
     </>
   );
 }
+
+function Modal({ onClose, user }) {
+  return (
+    <div style={styles.backdrop}>
+      <div style={styles.modal}>
+        <h3 className="text-center mb-3">User Details</h3>
+        <hr />
+        <table>
+          <tr>
+            <td>
+              <strong>Name</strong>
+            </td>
+            <td>&nbsp;:&nbsp;</td>
+            <td className="text-capitalize">{user.name}</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Email</strong>
+            </td>
+            <td>&nbsp;:&nbsp;</td>
+            <td>{user.email}</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Department</strong>
+            </td>
+            <td>&nbsp;:&nbsp;</td>
+            <td>{user.dept}</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Date of Join</strong>
+            </td>
+            <td>&nbsp;:&nbsp;</td>
+            <td>{user.joining_date}</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Role</strong>
+            </td>
+            <td>&nbsp;:&nbsp;</td>
+            <td>{user.role}</td>
+          </tr>
+        </table>
+        <hr />
+        <button className="btn btn-primary" onClick={onClose}>
+          Close
+        </button>
+      </div>
+    </div>
+  );
+}
+
+const styles = {
+  backdrop: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modal: {
+    background: "#fff",
+    padding: "20px",
+    borderRadius: "8px",
+    minWidth: "500px",
+  },
+};
 
 export default Employeedashboard;

@@ -7,7 +7,8 @@
       "dept": "Human Resource",
       "joining_date": "2025-07-19",
       "password": "lKeMVvEHcV",
-      "role": "HR"
+      "role": "HR",
+      "status": "Active"
     },
     {
       "id": "2585",
@@ -16,7 +17,8 @@
       "dept": "Admin",
       "joining_date": "2025-07-19",
       "password": "An94KQbB3U",
-      "role": "Employee"
+      "role": "Employee",
+      "status": "Active"
     },
     {
       "id": "b531",
@@ -25,7 +27,8 @@
       "dept": "Account",
       "joining_date": "2025-07-20",
       "password": "Z8soi8J4Ns",
-      "role": "Employee"
+      "role": "Employee",
+      "status": "Active"
     }
   ],
   "leaves": [
@@ -36,7 +39,9 @@
       "reason": "Go to home town for urgent work",
       "leave_applied_date": "2025-07-20",
       "leave_status": "Pending",
-      "employee_id": "2585"
+      "employee_id": "2585",
+      "status": "Approved",
+      "description": ""
     },
     {
       "id": "550d",
@@ -46,6 +51,17 @@
       "leave_applied_date": "2025-07-20",
       "leave_status": "Pending",
       "employee_id": "2585"
+    },
+    {
+      "id": "83b6",
+      "startdate": "2025-10-22",
+      "enddate": "2025-11-23",
+      "reason": "Urgent work",
+      "leave_applied_date": "2025-07-20",
+      "leave_status": "Pending",
+      "employee_id": "b531",
+      "status": "not_approved",
+      "description": "Due to work load leave not approved"
     }
   ]
 }
