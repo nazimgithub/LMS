@@ -17,7 +17,35 @@
       "joining_date": "2025-07-19",
       "password": "An94KQbB3U",
       "role": "Employee"
+    },
+    {
+      "id": "b531",
+      "name": "Mick Johsan",
+      "email": "mickj@test.com",
+      "dept": "Account",
+      "joining_date": "2025-07-20",
+      "password": "Z8soi8J4Ns",
+      "role": "Employee"
     }
   ],
-  "leaves": []
+  "leaves": [
+    {
+      "id": "cfe3",
+      "startdate": "2025-07-22",
+      "enddate": "2025-07-23",
+      "reason": "Go to home town for urgent work",
+      "leave_applied_date": "2025-07-20",
+      "leave_status": "Pending",
+      "employee_id": "2585"
+    },
+    {
+      "id": "550d",
+      "startdate": "2025-08-16",
+      "enddate": "2025-08-16",
+      "reason": "Client site visit related purchase order correction.",
+      "leave_applied_date": "2025-07-20",
+      "leave_status": "Pending",
+      "employee_id": "2585"
+    }
+  ]
 }
