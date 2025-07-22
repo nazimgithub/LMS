@@ -23,6 +23,11 @@ function Login() {
       (u) => u.email === email && u.password === password
     );
 
+    if (employee.status === "In-Active") {
+      setError("Your account is In-Active. Please contact HR.");
+      return;
+    }
+
     if (employee) {
       localStorage.setItem("isLoggedIn", "true");
       if (role === "HR") {

@@ -2,10 +2,14 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Header from "./Header";
 import { formatDate, getStatusClass } from "../utils";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Swal from "sweetalert2";
 
 function Hrdashboard() {
   const [employees, setEmployees] = useState([]);
   const [leaves, setLeaves] = useState([]);
+  const [submitCount, setSubmitCount] = useState(0);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentLeave, setCurrentLeave] = useState(null);
@@ -22,7 +26,7 @@ function Hrdashboard() {
         setLeaves(leaves);
       })
       .catch((err) => console.error("Error in parallel fetches:", err));
-  }, []);
+  }, [submitCount]);
 
   function openModal(leave) {
     setCurrentLeave(leave);
@@ -32,9 +36,11 @@ function Hrdashboard() {
   }
 
   function handleSubmit() {
+    setSubmitCount((c) => c + 1);
+
     const updatedLeave = {
-      status: approvalStatus,
-      description: approvalStatus === "not_approved" ? description : "",
+      leave_status: approvalStatus,
+      description: approvalStatus === "Rejected" ? description : "",
     };
 
     fetch(`http://localhost:3001/leaves/${currentLeave.id}`, {
@@ -47,6 +53,7 @@ function Hrdashboard() {
         console.log("Updated:", data);
         // optionally re-fetch or update state
         // ✅ Update local state
+        toast.success("Leave Updated successfully!");
         setLeaves((prevLeaves) =>
           prevLeaves.map((leave) =>
             leave.id === currentLeave.id ? { ...leave, ...updatedLeave } : leave
@@ -56,9 +63,42 @@ function Hrdashboard() {
         setIsModalOpen(false);
       })
       .catch((err) => {
+        toast.error("Something went wrong!");
         console.error("Failed to update:", err);
       });
   }
+
+  const handleUpdateStatus = (data) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: `You are about to change the status of ${data.name}`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, update it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        // Simulate API call here
+        const newStatus = data.status === "Active" ? "In-Active" : "Active";
+        console.log(newStatus);
+        try {
+          const response = await fetch(
+            `http://localhost:3001/employees/${data.id}`,
+            {
+              method: "PATCH",
+              body: JSON.stringify({ status: newStatus }),
+              headers: { "Content-Type": "application/json" },
+            }
+          );
+          const data = await response.json();
+          //setStatus(data.status);
+
+          Swal.fire("Updated!", `${data.name}'s status updated.`, "success");
+        } catch (error) {}
+      }
+    });
+  };
 
   return (
     <>
@@ -97,6 +137,7 @@ function Hrdashboard() {
                 <th>Department</th>
                 <th>Email</th>
                 <th>Status</th>
+                <th>Action</th>
               </thead>
               <tbody>
                 {employees.map((data, index) => (
@@ -111,6 +152,14 @@ function Hrdashboard() {
                           {data.status}
                         </span>
                       </strong>
+                    </td>
+                    <td>
+                      <button
+                        className="btn btn-success btn-sm"
+                        onClick={() => handleUpdateStatus(data)}
+                      >
+                        Change Status
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -215,9 +264,9 @@ function Hrdashboard() {
                   <input
                     type="radio"
                     name="approval"
-                    value="approved"
-                    checked={approvalStatus === "approved"}
-                    onChange={() => setApprovalStatus("approved")}
+                    value="Approved"
+                    checked={approvalStatus === "Approved"}
+                    onChange={() => setApprovalStatus("Approved")}
                   />
                   Approved
                 </label>
@@ -226,15 +275,15 @@ function Hrdashboard() {
                   <input
                     type="radio"
                     name="approval"
-                    value="not_approved"
-                    checked={approvalStatus === "not_approved"}
-                    onChange={() => setApprovalStatus("not_approved")}
+                    value="Rejected"
+                    checked={approvalStatus === "Rejected"}
+                    onChange={() => setApprovalStatus("Rejected")}
                   />
                   Not Approved
                 </label>
               </div>
 
-              {approvalStatus === "not_approved" && (
+              {approvalStatus === "Rejected" && (
                 <div className="mt-2">
                   <label>Reason for rejection:</label>
                   <textarea

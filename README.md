@@ -1,70 +1,90 @@
-# Getting Started with Create React App
+Employee Management and Leave Tracking App
+This is a web application built using ReactJS (with component-level state, no Redux) to manage employee records and their leave requests.
+It uses a local JSON Server as a mock backend to store and fetch data.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+📋 Features
+✅ Two types of users:
 
-## Available Scripts
+Human Resource (HR)
 
-In the project directory, you can run:
+Employee
 
-### `npm start`
+👥 User Roles & Functionality
+Human Resource (HR)
+Logs in using valid Email, Password, and Role = HR.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Redirected to HR Dashboard after successful login.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+On the HR Dashboard:
 
-### `npm test`
+Add New Employee
+Create new employee accounts (both Employee and HR roles).
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Employees List
+View all employees in a tabular format, showing:
 
-### `npm run build`
+Name
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Email
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Date of Joining
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Status (Active / In-Active)
 
-### `npm run eject`
+Update Employee Status
+Change an employee’s status between Active and In-Active.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Manage Employee Leaves
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+View all leave requests with their current status.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Click Manage Leave to open a modal showing leave details.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Approve or Not-Approve a leave request.
 
-## Learn More
+If Not-Approved, a textarea is displayed to enter the reason.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Employee
+Logs in using valid Email, Password, and Role = Employee.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Redirected to Employee Dashboard after successful login.
 
-### Code Splitting
+On the Employee Dashboard:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Apply Leave
+Submit a new leave request.
 
-### Analyzing the Bundle Size
+View Leave Requests
+See all personal leave requests along with HR’s approval status.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+View Profile
+See personal profile details.
 
-### Making a Progressive Web App
+Sign Up Functionality:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Employee can sign up with:
 
-### Advanced Configuration
+Name
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Email
 
-### Deployment
+Role = Employee
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Password
 
-### `npm run build` fails to minify
+After signing up, the employee account remains In-Active until HR updates the status to Active.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+🛠️ Tech Stack
+Frontend: ReactJS (with states, no Redux)
+
+Backend (Mock API): JSON Server
+
+State Management: Component-level state
+
+Authentication: Simple email/password/role check (mock)
+
+🚀 Setup & Run Locally
+Prerequisites
+Node.js & npm installed
+
+json-server installed globally or as dev dependency

@@ -15,6 +15,9 @@ export function getStatusClass(status) {
     case "Rejected":
       return "text-danger";
     case "Pending":
+      return "text-warning";
+    case "In-Active":
+      return "text-danger";
     default:
       return "text-warning";
   }

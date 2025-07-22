@@ -41,6 +41,7 @@ function Leavedetail() {
                     <th>Start Date</th>
                     <th>Reason</th>
                     <th>Leave Apply On</th>
+                    <th>HR Comment</th>
                     <th>Status</th>
                   </tr>
                 </thead>
@@ -52,6 +53,7 @@ function Leavedetail() {
                       <td>{formatDate(leave.enddate)}</td>
                       <td>{leave.reason}</td>
                       <td>{formatDate(leave.leave_applied_date)}</td>
+                      <td>{leave.description}</td>
                       <td>
                         <span className={getStatusClass(leave.leave_status)}>
                           {leave.leave_status}
