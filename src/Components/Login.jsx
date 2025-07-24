@@ -23,20 +23,27 @@ function Login() {
       (u) => u.email === email && u.password === password
     );
 
+    if (!employee) {
+      setError("Invalid credentials");
+      return;
+    }
+
     if (employee.status === "In-Active") {
       setError("Your account is In-Active. Please contact HR.");
       return;
     }
 
-    if (employee) {
-      localStorage.setItem("isLoggedIn", "true");
-      if (role === "HR") {
-        navigate("/dashboard");
-      } else {
-        navigate(`/emp-dashboard/${employee.id}`);
-      }
+    if (employee.role !== role) {
+      setError("Kindly choose the correct role.");
+      return;
+    }
+
+    localStorage.setItem("isLoggedIn", "true");
+
+    if (employee.role === "HR") {
+      navigate("/dashboard");
     } else {
-      setError("Invalid credentials");
+      navigate(`/emp-dashboard/${employee.id}`);
     }
   };
 
@@ -72,7 +79,10 @@ function Login() {
                       <input
                         className="form-check-input"
                         type="radio"
+                        name="role"
+                        id="flexRadioDefault1"
                         value="Employee"
+                        checked={role === "Employee"}
                         onChange={(e) => setRole(e.target.value)}
                       />
                       <label
@@ -86,7 +96,10 @@ function Login() {
                       <input
                         className="form-check-input"
                         type="radio"
+                        name="role"
+                        id="flexRadioDefault2"
                         value="HR"
+                        checked={role === "HR"}
                         onChange={(e) => setRole(e.target.value)}
                       />
                       <label

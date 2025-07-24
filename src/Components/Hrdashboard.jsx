@@ -68,36 +68,44 @@ function Hrdashboard() {
       });
   }
 
-  const handleUpdateStatus = (data) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: `You are about to change the status of ${data.name}`,
+  const updateEmployeeStatus = async (id, newStatus) => {
+    const result = await Swal.fire({
+      title: `Are you sure?`,
+      text: `Change status to ${newStatus}?`,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, update it!",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        // Simulate API call here
-        const newStatus = data.status === "Active" ? "In-Active" : "Active";
-        console.log(newStatus);
-        try {
-          const response = await fetch(
-            `http://localhost:3001/employees/${data.id}`,
-            {
-              method: "PATCH",
-              body: JSON.stringify({ status: newStatus }),
-              headers: { "Content-Type": "application/json" },
-            }
-          );
-          const data = await response.json();
-          //setStatus(data.status);
-
-          Swal.fire("Updated!", `${data.name}'s status updated.`, "success");
-        } catch (error) {}
-      }
     });
+
+    if (result.isConfirmed) {
+      try {
+        const response = await fetch(`http://localhost:3001/employees/${id}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ status: newStatus }),
+        });
+
+        if (!response.ok) throw new Error("Failed to update");
+
+        const updated = await response.json();
+
+        // 🔁 Update local employees list
+        setEmployees((prev) =>
+          prev.map((emp) =>
+            emp.id === id ? { ...emp, status: newStatus } : emp
+          )
+        );
+
+        Swal.fire("Updated!", "Employee status updated.", "success");
+      } catch (err) {
+        console.error(err);
+        Swal.fire("Error", "Failed to update status", "error");
+      }
+    }
   };
 
   return (
@@ -155,10 +163,15 @@ function Hrdashboard() {
                     </td>
                     <td>
                       <button
-                        className="btn btn-success btn-sm"
-                        onClick={() => handleUpdateStatus(data)}
+                        onClick={() =>
+                          updateEmployeeStatus(
+                            data.id,
+                            data.status === "Active" ? "In-Active" : "Active"
+                          )
+                        }
+                        className="btn btn-sm btn-warning"
                       >
-                        Change Status
+                        Manage Status
                       </button>
                     </td>
                   </tr>

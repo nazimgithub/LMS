@@ -13,6 +13,12 @@ function Employeedashboard() {
   });
   const [showModal, setShowModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [error, setError] = useState("");
+
+  const today = new Date().toISOString().split("T")[0]; // 'YYYY-MM-DD'
+
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -40,6 +46,9 @@ function Employeedashboard() {
 
   const handleLeave = (e) => {
     e.preventDefault();
+
+    handleStartDateChange(formData.startdate);
+    handleEndDateChange(formData.enddate);
 
     const applyLeave = {
       startdate: formData.startdate,
@@ -96,6 +105,27 @@ function Employeedashboard() {
     navigate(`/leave-details/${id}`);
   };
 
+  const handleStartDateChange = (startDate) => {
+    const selected = startDate;
+    if (selected < today) {
+      setError("Start date cannot be before today.");
+    } else {
+      setError("");
+      setStartDate(selected);
+    }
+  };
+  const handleEndDateChange = (endDate) => {
+    const selected = endDate;
+    if (selected < today) {
+      setError("End date cannot be before today.");
+    } else if (startDate && selected < startDate) {
+      setError("End date cannot be before the start date.");
+    } else {
+      setError("");
+      setEndDate(selected);
+    }
+  };
+
   return (
     <>
       <Header />
@@ -148,8 +178,10 @@ function Employeedashboard() {
                     <input
                       type="date"
                       className="form-control"
+                      id="startdate"
                       name="startdate"
                       value={formData.startdate}
+                      min={today}
                       onChange={handleChange}
                       required
                     />
@@ -158,6 +190,8 @@ function Employeedashboard() {
                       type="date"
                       className="form-control"
                       name="enddate"
+                      id="enddate"
+                      min={today}
                       value={formData.enddate}
                       onChange={handleChange}
                       required
@@ -191,6 +225,7 @@ function Employeedashboard() {
           </div>
           <div className="col-sm-2"></div>
         </div>
+        {error && <p className="text-danger">{error}</p>}
 
         {showModal && <Modal onClose={handleCloseModal} user={selectedUser} />}
       </div>

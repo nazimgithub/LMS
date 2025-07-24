@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Header from "./Header";
 import { formatDate, getStatusClass } from "../utils";
 
 function Leavedetail() {
   const { id } = useParams();
   const [leaves, setLeaves] = useState([]);
+  const navigate = useNavigate();
+
+  const handleGoBack = () => {
+    navigate(-1); // 🔙 Goes back to the previous page in history
+  };
 
   useEffect(() => {
     fetch("http://localhost:3001/leaves")
@@ -28,7 +33,11 @@ function Leavedetail() {
         }}
       >
         <div className="row">
-          <div className="col-sm-1"></div>
+          <div className="col-sm-1">
+            <button className="btn btn-secondary mt-5" onClick={handleGoBack}>
+              Go Back
+            </button>
+          </div>
           <div className="col-sm-10 mt-5">
             {leaves.length === 0 ? (
               <p>No leave records found.</p>

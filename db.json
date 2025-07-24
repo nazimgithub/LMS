@@ -71,6 +71,15 @@
       "leave_status": "Rejected",
       "employee_id": "b531",
       "description": "Due to client meeting."
+    },
+    {
+      "id": "c44b",
+      "startdate": "2025-07-24",
+      "enddate": "2025-07-25",
+      "reason": "Due to medical emergency at home not able to join office today.",
+      "leave_applied_date": "2025-07-24",
+      "leave_status": "Pending",
+      "employee_id": "2585"
     }
   ]
 }
